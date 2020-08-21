@@ -1,3 +1,6 @@
 from device_registry import app
+import os
 
-app.run(host='0.0.0.0', port=80, debug=True)
+PORT = int(os.environ.get("PORT"))
+
+app.run(host='0.0.0.0', port=PORT, debug=True)
