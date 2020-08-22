@@ -72,12 +72,16 @@ class Webhook(Resource):
         # Parse the arguments into an object
         args = parser.parse_args()
 
-        app.logger.info("Hello")
+        app.logger.info("Data received: ")
         app.logger.info(args)
-        # if args['message'].lower() == "/start":
-        #     send_message("id", "BOKITA EL MAS GRANDE, PAPA!!!")
+        app.logger.info(args['message'])
+        app.logger.info(args['message']['text'])
+        app.logger.info(args['message']['text'].lower())
+
+        # if args['message']['text'].lower() == "/start":
+        #     send_message(args['message']['message_id'], "BOKITA, EL MAS GRANDE, PAPA!!!")
         # else:
-        #     send_message("id", "No entiendo vieja. Te fuiste a la B")
+        #     send_message(args['message']['message_id'], "Todavía estoy en desarrollo así que no sé contestarte, pero proximamente podré abastecerte de memes, fotos, historia, data de partidos, trivia y más. Riber te fuiste a la B")
 
 
 class DeviceList(Resource):
