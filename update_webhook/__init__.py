@@ -25,11 +25,11 @@ def get_db():
     return db
 
 
-@app.teardown_appcontext
-def teardown_db(exception):
-    db = getattr(g, '_database', None)
-    if db is None:
-        db.close()
+# @app.teardown_appcontext
+# def teardown_db(exception):
+#     db = getattr(g, '_database', None)
+#     if db is None:
+#         db.close()
 
 
 @app.route("/")
