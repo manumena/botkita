@@ -1,4 +1,6 @@
+import json
 import os
+import re
 import shelve
 import markdown
 import requests
@@ -71,17 +73,24 @@ class Webhook(Resource):
 
         # Parse the arguments into an object
         args = parser.parse_args()
-
         app.logger.info("Data received: ")
         app.logger.info(args)
-        app.logger.info(args['message'])
-        app.logger.info(args['message']['text'])
-        app.logger.info(args['message']['text'].lower())
 
-        # if args['message']['text'].lower() == "/start":
-        #     send_message(args['message']['message_id'], "BOKITA, EL MAS GRANDE, PAPA!!!")
-        # else:
-        #     send_message(args['message']['message_id'], "Todavía estoy en desarrollo así que no sé contestarte, pero proximamente podré abastecerte de memes, fotos, historia, data de partidos, trivia y más. Riber te fuiste a la B")
+        # Parse the message received (the message is a json string)
+        msg = args["message"]
+        fixed_json = re.sub(r"[“|”|‛|’|‘|`|´|″|′|']", '"', msg)
+        fixed_json = re.sub(r"(?is)False", 'false', fixed_json)
+        fixed_json = re.sub(r"(?is)True", 'true', fixed_json)
+        message = json.loads(fixed_json)
+
+        if message["text"].lower() == "/start":
+            app.logger.info("Sending start msg to" + message["message_id"])
+            send_message(message["message_id"], "BOKITA, EL MAS GRANDE, PAPA!!!")
+            app.logger.info("Message sent")
+        else:
+            app.logger.info("Sending in construction msg to" + message["message_id"])
+            send_message(message["message_id"], "Todavía estoy en desarrollo así que no sé contestarte, pero proximamente podré abastecerte de memes, fotos, historia, data de partidos, trivia y más. Riber te fuiste a la B")
+            app.logger.info("Message sent")
 
 
 class DeviceList(Resource):

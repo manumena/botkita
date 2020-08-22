@@ -1,3 +1,6 @@
+import json
+import re
+
 import requests
 
 API_TOKEN = "1349962959:AAEXec9Yf_H5C_DagKibiGTKk4SOl1QsHN8"
@@ -33,17 +36,26 @@ def send_message(chat_id, message):
 # Main function to navigate or reply messages
 # TODO: if two messages came in before this could read the first one, it will be forgotten
 def main():
-    update_id = last_update(url)["update_id"]
-    while True:
-        update = last_update(url)
-        if update_id == update["update_id"]:
-            print("Received: ")
-            print(get_message_text(update))
-            if get_message_text(update).lower() == "/start":
-                send_message(get_chat_id(update), "BOKITA EL MAS GRANDE, PAPA!!!")
-            else:
-                send_message(get_chat_id(update), "No entiendo vieja. Te fuiste a la B")
-            update_id += 1
+    # update_id = last_update(url)["update_id"]
+    # while True:
+    #     update = last_update(url)
+    #     if update_id == update["update_id"]:
+    #         print("Received: ")
+    #         print(get_message_text(update))
+    #         if get_message_text(update).lower() == "/start":
+    #             send_message(get_chat_id(update), "BOKITA EL MAS GRANDE, PAPA!!!")
+    #         else:
+    #             send_message(get_chat_id(update), "No entiendo vieja. Te fuiste a la B")
+    #         update_id += 1
+    not_json = "{'id':False}"
+    fixed_json = re.sub(r"[“|”|‛|’|‘|`|´|″|′|']", '"', not_json)
+    fixed_json = re.sub(r"(?is)False", 'false', fixed_json)
+    fixed_json = re.sub(r"(?is)True", 'true', fixed_json)
+    message = json.loads(fixed_json)
+    print(not_json)
+    print(fixed_json)
+    print(message)
+    print('what')
 
 
 main()
