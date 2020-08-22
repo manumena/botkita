@@ -1,4 +1,4 @@
-from device_registry import app
+from update_webhook import app
 import os
 
 PORT = int(os.environ.get("PORT", "80"))
