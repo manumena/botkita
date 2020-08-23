@@ -84,11 +84,11 @@ class Webhook(Resource):
         message = json.loads(fixed_json)
 
         if message["text"].lower() == "/start":
-            app.logger.info("Sending start msg to" + message["message_id"])
+            app.logger.info("Sending start msg")
             send_message(message['chat']['id'], "BOKITA, EL MAS GRANDE, PAPA!!!")
             app.logger.info("Message sent")
         else:
-            app.logger.info("Sending in construction msg to" + message["message_id"])
+            app.logger.info("Sending in construction msg")
             send_message(message['chat']['id'], "Todavía estoy en desarrollo así que no sé contestarte, pero proximamente podré abastecerte de memes, fotos, historia, data de partidos, trivia y más. Riber te fuiste a la B")
             app.logger.info("Message sent")
 
