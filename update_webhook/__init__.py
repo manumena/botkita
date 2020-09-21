@@ -57,26 +57,17 @@ def send_message(chat_id, message):
 class Webhook(Resource):
     def post(self):
         parser = reqparse.RequestParser()
-
         parser.add_argument('update_id', required=True)
         parser.add_argument('message', required=False)
-        # parser.add_argument('edited_message', required=False)
-        # parser.add_argument('channel_post', required=False)
-        # parser.add_argument('edited_channel_post', required=False)
-        # parser.add_argument('inline_query', required=False)
-        # parser.add_argument('chosen_inline_result', required=False)
-        # parser.add_argument('callback_query', required=False)
-        # parser.add_argument('shipping_query', required=False)
-        # parser.add_argument('pre_checkout_query', required=False)
-        # parser.add_argument('poll', required=False)
-        # parser.add_argument('poll_answer', required=False)
 
         # Parse the arguments into an object
         args = parser.parse_args()
         app.logger.info("Data received: ")
         app.logger.info(args)
 
-        # Parse the message received (the message is a json string)
+        # The message received is a string containing a pseudo json:
+        #   - The attributes are enclosed with ' instead of "
+        #   - The boolean values are in python syntax: False instead of false
         msg = args["message"]
         fixed_json = re.sub(r"[“|”|‛|’|‘|`|´|″|′|']", '"', msg)
         fixed_json = re.sub(r"(?is)False", 'false', fixed_json)
