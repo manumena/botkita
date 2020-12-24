@@ -19,20 +19,11 @@ app = Flask(__name__)
 # Create the API
 api = Api(app)
 
-
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = shelve.open('bokita.db')
     return db
-
-
-# @app.teardown_appcontext
-# def teardown_db(exception):
-#     db = getattr(g, '_database', None)
-#     if db is None:
-#         db.close()
-
 
 @app.route("/")
 def index():
@@ -74,10 +65,15 @@ class Webhook(Resource):
         fixed_json = re.sub(r"(?is)True", 'true', fixed_json)
         message = json.loads(fixed_json)
 
+        # Respond to the message received
         if message["text"].lower() == "/start":
             app.logger.info("Sending start msg")
             send_message(message['chat']['id'], "BOKITA, EL MAS GRANDE, PAPA!!!")
             app.logger.info("Message sent")
+        elif message["text"].lower() == "/meme":
+            app.logger.info("Sending meme")
+            send_message(message['chat']['id'], "Proximamente memes")
+            app.logger.info("Meme sent")
         else:
             app.logger.info("Sending in construction msg")
             send_message(message['chat']['id'], "Todavía estoy en desarrollo así que no sé contestarte, pero proximamente podré abastecerte de memes, fotos, historia, data de partidos, trivia y más. Riber te fuiste a la B")
