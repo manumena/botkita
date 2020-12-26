@@ -66,18 +66,21 @@ class Webhook(Resource):
         message = json.loads(fixed_json)
 
         # Respond to the message received
-        if message["text"].lower() == "/start":
-            app.logger.info("Sending start msg")
-            send_message(message['chat']['id'], "BOKITA, EL MAS GRANDE, PAPA!!!")
-            app.logger.info("Message sent")
-        elif message["text"].lower() == "/meme":
-            app.logger.info("Sending meme")
-            send_message(message['chat']['id'], "Proximamente memes")
-            app.logger.info("Meme sent")
-        else:
-            app.logger.info("Sending in construction msg")
-            send_message(message['chat']['id'], "Todavía estoy en desarrollo así que no sé contestarte, pero proximamente podré abastecerte de memes, fotos, historia, data de partidos, trivia y más. Riber te fuiste a la B")
-            app.logger.info("Message sent")
+        in_message = "text" in message
+        app.logger.info("Tiene mensaje?: " + in_message)
+        if in_message:
+            if message["text"].lower() == "/start":
+                app.logger.info("Sending start msg")
+                send_message(message['chat']['id'], "BOKITA, EL MAS GRANDE, PAPA!!!")
+                app.logger.info("Message sent")
+            elif message["text"].lower() == "/meme":
+                app.logger.info("Sending meme")
+                send_message(message['chat']['id'], "Proximamente memes")
+                app.logger.info("Meme sent")
+            else:
+                app.logger.info("Sending in construction msg")
+                send_message(message['chat']['id'], "Todavía estoy en desarrollo así que no sé contestarte, pero proximamente podré abastecerte de memes, fotos, historia, data de partidos, trivia y más. Riber te fuiste a la B")
+                app.logger.info("Message sent")
 
 
 class DeviceList(Resource):
